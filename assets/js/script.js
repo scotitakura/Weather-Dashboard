@@ -8,23 +8,38 @@ var forecastArticle = document.querySelector("#forecast");
 
 var mainSelector = function(property) {
     return document.querySelector(`.${property}`);
-}
+};
 
 var cardSelector = function(n, property) {
     return document.querySelector(`#card-${n} .${property}`);
-}
+};
 
-var userInput = searchInput.value
+//
+var historyInput = JSON.parse(localStorage.getItem("userInput"));
+if (!historyInput) {
+    historyInput = [];
+};
+
+var appendCityButton = function(cityButton) {
+    var historyButton = document.createElement("button");
+    searchHistory.appendChild(historyButton);
+    historyButton.innerHTML = cityButton;
+    // WHY does this function work when it's already a function
+    historyButton.addEventListener("click", function() {
+        getCityWeather(cityButton, false);
+    });
+};
+
+for (var i = 0; i < historyInput.length; i++) {
+    appendCityButton(historyInput[i]);
+};
+
 function saveSearch(userInput) {
-    var historyInput = JSON.parse(localStorage.getItem("userInput"));
-    if (!historyInput) {
-        historyInput = [];
-    };
-    
     historyInput.push(userInput.value);
     localStorage.setItem("userInput", JSON.stringify(historyInput));
-}
+};
 
+//
 var displayInfo = function(cityName, cityDate, cityIconURL, temp, humidity, windSpeed) {
     var mainDate = mainSelector("main-date");
     mainDate.innerHTML = `${cityName} ${cityDate}`;
@@ -40,12 +55,12 @@ var displayInfo = function(cityName, cityDate, cityIconURL, temp, humidity, wind
 
     var mainWindSpeed = mainSelector("main-humidity");
     mainWindSpeed.innerHTML = `Wind Speed: ${windSpeed} MPH`;
-}
+};
 
 var displayUV = function(UVIndex) {
     var mainUVIndex = mainSelector("main-uv-index");
-    mainUVIndex.innerHTML = "UV Index: " + UVIndex;
-}
+    mainUVIndex.innerHTML = `UV Index: ${UVIndex}`;
+};
 
 var displayCard = function(n, forecastDate, iconURL, forecastTemp, forecastHumidity) {
     var cardDate = cardSelector(n, "date");
@@ -59,20 +74,18 @@ var displayCard = function(n, forecastDate, iconURL, forecastTemp, forecastHumid
 
     var cardHumidity = cardSelector(n, "humidity");
     cardHumidity.innerHTML = `Humidity: ${forecastHumidity}%`;
-}
+};
 
-searchButton.addEventListener("click", function(){
-
+var getCityWeather = function(city, shouldAppendButton){
     // Fetch weather api
-    fetch(`http://api.openweathermap.org/data/2.5/weather?q=${searchInput.value}&appid=${appid}`)
+    fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${appid}`)
     .then(function(response) {
+
         if (response.ok) {
-            var historyButton = document.createElement("button");
-            searchHistory.appendChild(historyButton);
-            historyButton.innerHTML = searchInput.value;
-    
             saveSearch(searchInput);
-            
+            if (shouldAppendButton) {
+                appendCityButton(searchInput.value);
+            };
             return response.json();
         } else {
             alert("Please enter a valid city.");
@@ -89,7 +102,7 @@ searchButton.addEventListener("click", function(){
         var lat = response.coord.lat;
         var lon = response.coord.lon;
 
-        var cityIconURL = "http://openweathermap.org/img/w/" + cityIcon + ".png"
+        var cityIconURL = `http://openweathermap.org/img/w/${cityIcon}.png`
 
         displayInfo(cityName, cityDate, cityIconURL, temp, humidity, windSpeed);
 
@@ -103,7 +116,7 @@ searchButton.addEventListener("click", function(){
         displayUV(UVIndex);
     })
 
-    fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${searchInput.value}&appid=${appid}`)
+    fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${appid}`)
     .then(function(response) {
         if (response.ok) {
             return response.json();
@@ -115,7 +128,7 @@ searchButton.addEventListener("click", function(){
             var forecastDt = response.list[i].dt;
             var forecastDate = new Date(forecastDt*1000).toLocaleDateString();
             var weatherIcon = response.list[i].weather[0].icon;
-            var iconURL = "http://openweathermap.org/img/w/" + weatherIcon + ".png"
+            var iconURL = `http://openweathermap.org/img/w/${weatherIcon}.png`
             var forecastTemp = 1.8*(response.list[i].main.temp-273) + 32;
             var forecastHumidity = response.list[i].main.humidity;
             
@@ -124,4 +137,8 @@ searchButton.addEventListener("click", function(){
             n++;
         }
     })
+};
+
+searchButton.addEventListener("click", function() {
+    getCityWeather(searchInput.value, true);
 });
