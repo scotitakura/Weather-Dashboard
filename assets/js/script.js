@@ -6,10 +6,13 @@ var searchHistory = document.querySelector("#search-history");
 var cityInfo = document.querySelector("#city-info");
 var forecastArticle = document.querySelector("#forecast");
 
-// var kToF = function(kelvin) {
-//     1.8*(kelvin-273) + 32;
-//     return kelvin;
-// }
+var mainSelector = function(property) {
+    return document.querySelector(`.${property}`);
+}
+
+var cardSelector = function(n, property) {
+    return document.querySelector(`#card-${n} .${property}`);
+}
 
 var userInput = searchInput.value
 function saveSearch(userInput) {
@@ -22,46 +25,40 @@ function saveSearch(userInput) {
     localStorage.setItem("userInput", JSON.stringify(historyInput));
 }
 
-var displayInfo = function(cityName, temp, humidity, windSpeed) {
-    var cityHeader = document.createElement("h2");
-    cityInfo.appendChild(cityHeader);
-    cityHeader.innerHTML = cityName;
+var displayInfo = function(cityName, cityDate, cityIconURL, temp, humidity, windSpeed) {
+    var mainDate = mainSelector("main-date");
+    mainDate.innerHTML = `${cityName} ${cityDate}`;
 
-    var tempText = document.createElement("p");
-    cityInfo.appendChild(tempText);
-    tempText.innerHTML = "Temperature: " + temp.toFixed(1) + " °F";
+    var mainIcon = mainSelector("main-icon");
+    mainIcon.setAttribute('src', cityIconURL);
 
-    var humidityText = document.createElement("p");
-    cityInfo.appendChild(humidityText);
-    humidityText.innerHTML = "Humidity: " + humidity + "%";
+    var mainTemp = mainSelector("main-temp");
+    mainTemp.innerHTML = `Temperature: ${temp.toFixed(1)} °F`;
 
-    var windText = document.createElement("p");
-    cityInfo.appendChild(windText);
-    windText.innerHTML = "Wind Speed: " + windSpeed + " MPH";
+    var mainHumidity = mainSelector("main-humidity");
+    mainHumidity.innerHTML = `Humidity: ${humidity}%`;
+
+    var mainWindSpeed = mainSelector("main-humidity");
+    mainWindSpeed.innerHTML = `Wind Speed: ${windSpeed} MPH`;
 }
 
 var displayUV = function(UVIndex) {
-    var tempText = document.createElement("p");
-    cityInfo.appendChild(tempText);
-    tempText.innerHTML = "UV Index: " + UVIndex;
+    var mainUVIndex = mainSelector("main-uv-index");
+    mainUVIndex.innerHTML = "UV Index: " + UVIndex;
 }
 
-var displayCard = function(forecastDate, iconURL, forecastTemp, forecastHumidity) {
-    var cardDate = document.createElement("h3");
-    forecastArticle.appendChild(cardDate);
+var displayCard = function(n, forecastDate, iconURL, forecastTemp, forecastHumidity) {
+    var cardDate = cardSelector(n, "date");
     cardDate.innerHTML = forecastDate;
 
-    var cardIcon = document.createElement("img");
-    cardIcon.setAttribute('src', iconURL)
-    forecastArticle.appendChild(cardIcon);
+    var cardIcon = cardSelector(n, "icon");
+    cardIcon.setAttribute('src', iconURL);
 
-    var cardTemp = document.createElement("p");
-    forecastArticle.appendChild(cardTemp);
-    cardTemp.innerHTML = "Temperature: " + forecastTemp.toFixed(1) + " °F";
+    var cardTemp = cardSelector(n, "temp");
+    cardTemp.innerHTML = `Temperature: ${forecastTemp.toFixed(1)} °F`;
 
-    var cardHumidity = document.createElement("p");
-    forecastArticle.appendChild(cardHumidity);
-    cardHumidity.innerHTML = "Humidity: " + forecastHumidity + " %";
+    var cardHumidity = cardSelector(n, "humidity");
+    cardHumidity.innerHTML = `Humidity: ${forecastHumidity}%`;
 }
 
 searchButton.addEventListener("click", function(){
@@ -83,13 +80,18 @@ searchButton.addEventListener("click", function(){
     })
     .then(function(response) {
         var cityName = response.name;
+        var cityDt = response.dt;
+        var cityDate = new Date(cityDt*1000).toLocaleDateString();
+        var cityIcon = response.weather[0].icon;
         var temp = 1.8*(response.main.temp-273) + 32;
         var humidity = response.main.humidity;
         var windSpeed = response.wind.speed;
         var lat = response.coord.lat;
         var lon = response.coord.lon;
 
-        displayInfo(cityName, temp, humidity, windSpeed);
+        var cityIconURL = "http://openweathermap.org/img/w/" + cityIcon + ".png"
+
+        displayInfo(cityName, cityDate, cityIconURL, temp, humidity, windSpeed);
 
         return fetch(`http://api.openweathermap.org/data/2.5/uvi?appid=${appid}&lat=${lat}&lon=${lon}`);
     })
@@ -108,21 +110,18 @@ searchButton.addEventListener("click", function(){
         }
     })
     .then(function(response) {
+        var n = 1;
         for (var i = 2; i < 39; i += 8) {
-            var forecastDate = response.list[i].dt_txt;
+            var forecastDt = response.list[i].dt;
+            var forecastDate = new Date(forecastDt*1000).toLocaleDateString();
             var weatherIcon = response.list[i].weather[0].icon;
             var iconURL = "http://openweathermap.org/img/w/" + weatherIcon + ".png"
             var forecastTemp = 1.8*(response.list[i].main.temp-273) + 32;
             var forecastHumidity = response.list[i].main.humidity;
-
-            displayCard(forecastDate, iconURL, forecastTemp, forecastHumidity);
             
-            console.log(response)
-            console.log(response.list[i])
-            console.log(response.list[i].dt_txt)
-            console.log(response.list[i].weather[0].icon)
-            console.log(response.list[i].main.temp);
-            console.log(response.list[i].main.humidity);
+            displayCard(n, forecastDate, iconURL, forecastTemp, forecastHumidity);
+            
+            n++;
         }
     })
-    });
+});
