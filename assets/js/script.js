@@ -4,7 +4,12 @@ var searchInput = document.querySelector("#search-input");
 var searchButton = document.querySelector("#search-button");
 var searchHistory = document.querySelector("#search-history");
 var cityInfo = document.querySelector("#city-info");
+var forecastArticle = document.querySelector("#forecast");
 
+// var kToF = function(kelvin) {
+//     1.8*(kelvin-273) + 32;
+//     return kelvin;
+// }
 
 var userInput = searchInput.value
 function saveSearch(userInput) {
@@ -30,15 +35,33 @@ var displayInfo = function(cityName, temp, humidity, windSpeed) {
     cityInfo.appendChild(humidityText);
     humidityText.innerHTML = "Humidity: " + humidity + "%";
 
-    var tempText = document.createElement("p");
-    cityInfo.appendChild(tempText);
-    tempText.innerHTML = "Wind Speed: " + windSpeed + " MPH";
+    var windText = document.createElement("p");
+    cityInfo.appendChild(windText);
+    windText.innerHTML = "Wind Speed: " + windSpeed + " MPH";
 }
 
 var displayUV = function(UVIndex) {
     var tempText = document.createElement("p");
     cityInfo.appendChild(tempText);
     tempText.innerHTML = "UV Index: " + UVIndex;
+}
+
+var displayCard = function(forecastDate, iconURL, forecastTemp, forecastHumidity) {
+    var cardDate = document.createElement("h3");
+    forecastArticle.appendChild(cardDate);
+    cardDate.innerHTML = forecastDate;
+
+    var cardIcon = document.createElement("img");
+    cardIcon.setAttribute('src', iconURL)
+    forecastArticle.appendChild(cardIcon);
+
+    var cardTemp = document.createElement("p");
+    forecastArticle.appendChild(cardTemp);
+    cardTemp.innerHTML = "Temperature: " + forecastTemp.toFixed(1) + " °F";
+
+    var cardHumidity = document.createElement("p");
+    forecastArticle.appendChild(cardHumidity);
+    cardHumidity.innerHTML = "Humidity: " + forecastHumidity + " %";
 }
 
 searchButton.addEventListener("click", function(){
@@ -54,8 +77,6 @@ searchButton.addEventListener("click", function(){
             saveSearch(searchInput);
             
             return response.json();
-            
-            
         } else {
             alert("Please enter a valid city.");
         }
@@ -80,6 +101,28 @@ searchButton.addEventListener("click", function(){
         displayUV(UVIndex);
     })
 
+    fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${searchInput.value}&appid=${appid}`)
+    .then(function(response) {
+        if (response.ok) {
+            return response.json();
+        }
+    })
+    .then(function(response) {
+        for (var i = 2; i < 39; i += 8) {
+            var forecastDate = response.list[i].dt_txt;
+            var weatherIcon = response.list[i].weather[0].icon;
+            var iconURL = "http://openweathermap.org/img/w/" + weatherIcon + ".png"
+            var forecastTemp = 1.8*(response.list[i].main.temp-273) + 32;
+            var forecastHumidity = response.list[i].main.humidity;
 
-    
-});
+            displayCard(forecastDate, iconURL, forecastTemp, forecastHumidity);
+            
+            console.log(response)
+            console.log(response.list[i])
+            console.log(response.list[i].dt_txt)
+            console.log(response.list[i].weather[0].icon)
+            console.log(response.list[i].main.temp);
+            console.log(response.list[i].main.humidity);
+        }
+    })
+    });
