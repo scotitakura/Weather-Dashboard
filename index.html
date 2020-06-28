@@ -5,75 +5,101 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
         <link rel="stylesheet" href="assets/css/style.css"></link>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.4.6/base.min.css" integrity="sha256-q1waS+j3XzbPuDsYvSCg0gJSqMyWeEyFHQFWf9/BCPc=" crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.4.6/components.min.css" integrity="sha256-LSQP3MbpDJypSUMHv6f7Zsdgd70/9jgNlSp+azQRdmg=" crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.4.6/tailwind.min.css" integrity="sha256-CAI/7ThhltsmP2L2zKBYa7FknB3ZwFbD0nqL8FCdxdc=" crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.4.6/utilities.min.css" integrity="sha256-lwbJ3aJRIqqYWOeFIxSivpAq96f4cZcXmyvzZ2NiYoQ=" crossorigin="anonymous" />
         <!-- <link rel="stylesheet" href="assets/css/foundation.css"></link> -->
     </head>
 
     <body>
-        <header>
-            <h1>Weather Dashboard</h1>
-        </header>
-        <aside>
-            <h2 id="search-header">Search for a City:</h2>
-            <input id="search-input"></input>
-            <button id="search-button">
-                <img />
-            </button>
-            <section id="search-history"></section>
-        </aside>
+        <div class="flex bg-gray-900 font-sans text-gray-200 text-4xl text-center">
+            <header class="w-full">
+                <h1>Weather Dashboard</h1>
+            </header>
+        </div>
+        
+        <div class="flex">
+            <div class="w-1/4 min-h-full bg-gray-300 h-screen">
+                <div class="flex m-2">
+                    <h2 id="search-header" class="w-full text-xl">Search for a City:</h2>
+                </div>
+                
+                <div class="flex m-2">
+                    <div class="w-3/4">
+                        <input id="search-input" class="w-3/4 h-12 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-400 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white" type="text" placeholder="Enter city name"></input>
+                    </div>
 
-        <section id="city-info">
-            <h2 class="main-date"></h2>
-            <img class="main-icon"></img>
-            <div class="main-temp"></div>
-            <div class="main-humidity"></div>
-            <div class="main-wind-speed"></div>
-            <div class="main-uv-index"></div>
-        </section>
-
-        <article id="forecast">
-            <div class="row">
-                <div class="card-padding">
-                    <section id="card-1" class="card card-section">
-                        <h3 class="date"></h3>
-                        <img class="icon"></img>
-                        <div class="temp"></div>
-                        <div class="humidity"></div>
-                    </section>
+                    <div class="w-1/4 h-12 px-1">
+                        <button id="search-button" class="h-12 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded">
+                            <img src="assets/images/search-icon.png" alt="Search Image Button" />
+                        </button>
+                    </div>
                 </div>
-                <div class="card-padding">
-                    <section id="card-2" class="card card-section">
-                        <h3 class="date"></h3>
-                        <img class="icon"></img>
-                        <div class="temp"></div>
-                        <div class="humidity"></div>
-                    </section>
-                </div>
-                <div class="card-padding">
-                    <section id="card-3" class="card card-section">
-                        <h3 class="date"></h3>
-                        <img class="icon"></img>
-                        <div class="temp"></div>
-                        <div class="humidity"></div>
-                    </section>
-                </div>
-                <div class="card-padding">
-                    <section id="card-4" class="card card-padding">
-                        <h3 class="date"></h3>
-                        <img class="icon"></img>
-                        <div class="temp"></div>
-                        <div class="humidity"></div>
-                    </section>
-                </div>
-                <div class="card-padding">
-                    <section id="card-5" class="card card-padding">
-                        <h3 class="date"></h3>
-                        <img class="icon"></img>
-                        <div class="temp"></div>
-                        <div class="humidity"></div>
-                    </section>
+                <div class="flex">
+                    <section id="search-history" class="w-full px-2 py-2"></section>
                 </div>
             </div>
-        </article>
+
+            <div class="flex-wrap w-3/4">
+                <div id="city-info" class="flex m-3 halfheight">
+                    <div class="w-full rounded border-2 p-3 bg-gray-200">
+                        <div class="flex p-3">
+                            <h2 class="main-date text-4xl"></h2>
+                            <img class="main-icon icon-size"></img>
+                        </div>
+                        <div class="main-temp text-2xl flex mx-3 my-2"></div>
+                        <div class="main-humidity text-2xl flex m-3"></div>
+                        <div class="main-wind-speed text-2xl flex m-3"></div>
+                        <div class="main-uv-index text-2xl flex m-3"></div>
+                    </div>
+                </div>
+
+                <div id="forecast" class="flex halfheight text-gray-200">
+                        <div class="rounded bg-blue-700 m-3  w-1/5">
+                            <section id="card-1" class="card card-section">
+                                <h3 class="date text-3xl m-3"></h3>
+                                <img class="icon m-3"></img>
+                                <div class="temp m-3"></div>
+                                <div class="humidity m-3"></div>
+                            </section>
+                        </div>
+                        <div class="rounded bg-blue-700 m-3 w-1/5">
+                            <section id="card-2" class="card card-section">
+                                <h3 class="date text-3xl m-3"></h3>
+                                <img class="icon m-3"></img>
+                                <div class="temp m-3"></div>
+                                <div class="humidity m-3"></div>
+                            </section>
+                        </div>
+                        <div class="rounded bg-blue-700 m-3 w-1/5">
+                            <section id="card-3" class="card card-section">
+                                <h3 class="date text-3xl m-3"></h3>
+                                <img class="icon m-3"></img>
+                                <div class="temp m-3"></div>
+                                <div class="humidity m-3"></div>
+                            </section>
+                        </div>
+                        <div class="rounded bg-blue-700 m-3 w-1/5">
+                            <section id="card-4" class="card card-padding">
+                                <h3 class="date text-3xl m-3"></h3>
+                                <img class="icon m-3"></img>
+                                <div class="temp m-3"></div>
+                                <div class="humidity m-3"></div>
+                            </section>
+                        </div>
+                        <div class="rounded bg-blue-700 m-3 w-1/5">
+                            <section id="card-5" class="card card-padding">
+                                <h3 class="date text-3xl m-3"></h3>
+                                <img class="icon m-3"></img>
+                                <div class="temp m-3"></div>
+                                <div class="humidity m-3"></div>
+                            </section>
+                        </div>
+                    
+                </div>
+            </div>
+        </div>
         <script src="assets/js/script.js"></script>
     </body>
 </html>
