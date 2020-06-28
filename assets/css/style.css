@@ -1,3 +1,9 @@
-.halfheight {
-    height: 50%;
+.height-text {
+    height: 11%;
+}
+.height-card {
+    height: 35%;
+}
+.height-main {
+    height: 54%;
 }

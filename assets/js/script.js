@@ -29,7 +29,6 @@ var appendCityButton = function(cityButton) {
     historyButton.innerHTML = cityButton;
     historyButton.setAttribute("class", "flex w-full h-12 bg-white hover:bg-gray-100 text-gray-800 font-semibold py-3 px-4 my-1 border border-gray-400 rounded shadow capitalize")
 
-    // WHY does this function work when it's already a function
     historyButton.addEventListener("click", function() {
         getCityWeather(cityButton, false);
     });
@@ -49,7 +48,7 @@ function saveSearch(userInput) {
 // Function displays info for the todays weather stats
 var displayInfo = function(cityName, cityDate, cityIconURL, temp, humidity, windSpeed) {
     var mainDate = mainSelector("main-date");
-    mainDate.innerHTML = `${cityName} ${cityDate}`;
+    mainDate.innerHTML = `${cityName} ${cityDate} `;
 
     var mainIcon = mainSelector("main-icon");
     mainIcon.setAttribute('src', cityIconURL);
@@ -94,8 +93,7 @@ var displayCard = function(n, forecastDate, iconURL, forecastTemp, forecastHumid
     cardHumidity.innerHTML = `Humidity: ${forecastHumidity}%`;
 };
 
-// Bring up city weather button (can be used for submit or search history with shouldAppendButton parameter)
-// because we only want the search button to append a button.
+// Bring up city weather button (can be used for submit or search history with shouldAppendButton parameter) because we only want the search button to append a button
 var getCityWeather = function(city, shouldAppendButton){
     // Fetch today's weather api
     fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${appid}`)
@@ -144,8 +142,9 @@ var getCityWeather = function(city, shouldAppendButton){
         }
     })
     .then(function(response) {
+        // n interate for each day, and find the weather info for each day at 12pm
         var n = 1;
-        console.log(response);
+
         let list = response.list; 
         for (var i = 0; i < list.length; i++) {
             var forecastDt_text = response.list[i].dt_txt;

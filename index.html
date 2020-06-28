@@ -9,7 +9,6 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.4.6/components.min.css" integrity="sha256-LSQP3MbpDJypSUMHv6f7Zsdgd70/9jgNlSp+azQRdmg=" crossorigin="anonymous" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.4.6/tailwind.min.css" integrity="sha256-CAI/7ThhltsmP2L2zKBYa7FknB3ZwFbD0nqL8FCdxdc=" crossorigin="anonymous" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.4.6/utilities.min.css" integrity="sha256-lwbJ3aJRIqqYWOeFIxSivpAq96f4cZcXmyvzZ2NiYoQ=" crossorigin="anonymous" />
-        <!-- <link rel="stylesheet" href="assets/css/foundation.css"></link> -->
     </head>
 
     <body>
@@ -20,7 +19,7 @@
         </div>
         
         <div class="flex">
-            <div class="w-1/4 min-h-full bg-gray-300 h-screen">
+            <div class="w-1/4 bg-gray-300 h-screen">
                 <div class="flex m-2">
                     <h2 id="search-header" class="w-full text-xl">Search for a City:</h2>
                 </div>
@@ -42,9 +41,9 @@
             </div>
 
             <div class="flex-wrap w-3/4">
-                <div id="city-info" class="flex m-3 halfheight">
+                <div id="city-info" class="flex p-3 height-main">
                     <div class="w-full rounded border-2 p-3 bg-gray-200">
-                        <div class="flex p-3">
+                        <div class="flex mx-3">
                             <h2 class="main-date text-4xl"></h2>
                             <img class="main-icon icon-size"></img>
                         </div>
@@ -55,8 +54,10 @@
                     </div>
                 </div>
 
-                <div id="forecast" class="flex halfheight text-gray-200">
-                        <div class="rounded bg-blue-700 m-3  w-1/5">
+                <div class="text-4xl mx-3 height-text">5-Day Forecast:</div>
+
+                <div id="forecast" class="flex height-card text-gray-200">
+                        <div class="rounded bg-blue-700 ml-3 mb-3 w-1/5">
                             <section id="card-1" class="card card-section">
                                 <h3 class="date text-3xl m-3"></h3>
                                 <img class="icon m-3"></img>
@@ -64,7 +65,7 @@
                                 <div class="humidity m-3"></div>
                             </section>
                         </div>
-                        <div class="rounded bg-blue-700 m-3 w-1/5">
+                        <div class="rounded bg-blue-700 ml-3 mb-3 w-1/5">
                             <section id="card-2" class="card card-section">
                                 <h3 class="date text-3xl m-3"></h3>
                                 <img class="icon m-3"></img>
@@ -72,7 +73,7 @@
                                 <div class="humidity m-3"></div>
                             </section>
                         </div>
-                        <div class="rounded bg-blue-700 m-3 w-1/5">
+                        <div class="rounded bg-blue-700 ml-3 mb-3 w-1/5">
                             <section id="card-3" class="card card-section">
                                 <h3 class="date text-3xl m-3"></h3>
                                 <img class="icon m-3"></img>
@@ -80,7 +81,7 @@
                                 <div class="humidity m-3"></div>
                             </section>
                         </div>
-                        <div class="rounded bg-blue-700 m-3 w-1/5">
+                        <div class="rounded bg-blue-700 ml-3 mb-3 w-1/5">
                             <section id="card-4" class="card card-padding">
                                 <h3 class="date text-3xl m-3"></h3>
                                 <img class="icon m-3"></img>
@@ -88,7 +89,7 @@
                                 <div class="humidity m-3"></div>
                             </section>
                         </div>
-                        <div class="rounded bg-blue-700 m-3 w-1/5">
+                        <div class="rounded bg-blue-700 mx-3 mb-3 w-1/5">
                             <section id="card-5" class="card card-padding">
                                 <h3 class="date text-3xl m-3"></h3>
                                 <img class="icon m-3"></img>
