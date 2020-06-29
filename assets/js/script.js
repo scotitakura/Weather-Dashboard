@@ -96,7 +96,7 @@ var displayCard = function(n, forecastDate, iconURL, forecastTemp, forecastHumid
 // Bring up city weather button (can be used for submit or search history with shouldAppendButton parameter) because we only want the search button to append a button
 var getCityWeather = function(city, shouldAppendButton){
     // Fetch today's weather api
-    fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${appid}`)
+    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${appid}`)
     .then(function(response) {
         if (response.ok) {
             if (shouldAppendButton) {
@@ -124,7 +124,7 @@ var getCityWeather = function(city, shouldAppendButton){
         displayInfo(cityName, cityDate, cityIconURL, temp, humidity, windSpeed);
 
         // Fetch today's UV Index
-        return fetch(`http://api.openweathermap.org/data/2.5/uvi?appid=${appid}&lat=${lat}&lon=${lon}`);
+        return fetch(`https://api.openweathermap.org/data/2.5/uvi?appid=${appid}&lat=${lat}&lon=${lon}`);
     })
     .then(function(response) {
         return response.json();
@@ -135,7 +135,7 @@ var getCityWeather = function(city, shouldAppendButton){
     })
 
     // Fetch 5 day forecast data
-    fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${appid}`)
+    fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${appid}`)
     .then(function(response) {
         if (response.ok) {
             return response.json();
