@@ -119,7 +119,7 @@ var getCityWeather = function(city, shouldAppendButton){
         var lat = response.coord.lat;
         var lon = response.coord.lon;
 
-        var cityIconURL = `http://openweathermap.org/img/w/${cityIcon}.png`
+        var cityIconURL = `https://openweathermap.org/img/w/${cityIcon}.png`
 
         displayInfo(cityName, cityDate, cityIconURL, temp, humidity, windSpeed);
 
@@ -153,7 +153,7 @@ var getCityWeather = function(city, shouldAppendButton){
             if(forecastDt_text.includes("12:00:00")) {
                 var forecastDate = new Date(forecastDt*1000).toLocaleDateString();
                 var weatherIcon = response.list[i].weather[0].icon;
-                var iconURL = `http://openweathermap.org/img/w/${weatherIcon}.png`
+                var iconURL = `https://openweathermap.org/img/w/${weatherIcon}.png`
                 var forecastTemp = 1.8*(response.list[i].main.temp-273) + 32;
                 var forecastHumidity = response.list[i].main.humidity;
                 
