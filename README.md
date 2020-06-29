@@ -10,6 +10,6 @@ A website that when prompted in a search bar, displays weather related informati
     * Open Weather Map API
     * Tailwind CSS packet
 ## Website
-https://scotitakura.github.io/weather-dashboard/
+https://scotitakura.github.io/Weather-Dashboard/
 ## Contributions
 * Scot Itakura
